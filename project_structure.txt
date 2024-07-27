@@ -1,0 +1,66 @@
+webapp/
+├── core/
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+├── utils/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations/
+│   ├── models.py
+│   ├── tests.py
+│   ├── views.py
+│   ├── urls.py
+│   └── templates/
+│       └── utils/
+│           ├── index.html
+│           ├── about.html
+├── user/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations/
+│   ├── models.py
+│   ├── tests.py
+│   ├── views.py
+│   ├── urls.py
+├── adminapp/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations/
+│   ├── models.py
+│   ├── tests.py
+│   ├── views.py
+├── cms/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations/
+│   ├── models.py
+│   ├── tests.py
+│   ├── views.py
+│   ├── urls.py
+├── static/
+│   └── css/
+│       ├── styles.css
+│       ├── bootstrap.min.css
+│       └── ...
+│   └── js/
+│       ├── scripts.js
+│       ├── bootstrap.min.js
+│       └── ...
+│   └── img/
+│       ├── logo.png
+│       ├── background.jpg
+│       └── ...
+├── media/
+│   └── uploads/
+├── manage.py
+├── requirements.txt
+└── README.md
+|__ .gitignore
+|__ project_structure.txt

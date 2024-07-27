@@ -1,0 +1,26 @@
+{% extends 'user/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Add Pooja</h3>
+                </div>
+                <div class="card-body">
+           
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class="btn btn-primary">Add Pooja</button>
+                            <a href="{% url 'cms:list_poojas' temple_id %}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

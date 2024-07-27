@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Temple Address{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'assets/css/common_styles.css' %}">
+</head>
+<body>
+    <!-- Top Header -->
+    <header>
+        <div class="container">
+            <div class="site-name">Temple Address</div>
+            <nav>
+                <a href="{% url 'user:login' %}">Login</a>
+                <a href="{% url 'user:signup' %}">Register</a>
+                <a href="#">Add Details</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer Menu -->
+    <footer>
+        <div class="container">
+            <div class="footer-section">
+                <h3>Temple Address</h3>
+                <p>Discover the best temples around the world.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Categories</h3>
+                <ul>
+                    <li><a href="#">Temples</a></li>
+                    <li><a href="#">Spiritual Places</a></li>
+                    <li><a href="#">Festivals</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Traditional Artists</a></li>
+                    <li><a href="#">Others</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Main Menu</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Help</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Download App</h3>
+                <button>App Store</button>
+                <button>Google Play</button>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-media">
+                    <a href="#"><img src="https://via.placeholder.com/20" alt="FB"></a>
+                    <a href="#"><img src="https://via.placeholder.com/20" alt="Insta"></a>
+                    <a href="#"><img src="https://via.placeholder.com/20" alt="Whatsapp"></a>
+                    <a href="#"><img src="https://via.placeholder.com/20" alt="Twitter"></a>
+                    <a href="#"><img src="https://via.placeholder.com/20" alt="Youtube"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

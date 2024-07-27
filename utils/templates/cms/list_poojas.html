@@ -1,0 +1,44 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Poojas</h3>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'cms:add_pooja' temple_id %}" class="btn btn-primary mb-3">Add New Pooja</a>
+                    <a href="{% url 'cms:view_listing' temple_id %}" class="btn btn-warning mb-3">Back to Temple </a>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pooja in poojas %}
+                            <tr>
+                                <td>{{ pooja.name }}</td>
+                                <td>{{ pooja.description }}</td>
+                                <td>{{ pooja.amount }}</td>
+                                <td>
+                                    <a href="{% url 'cms:edit_pooja' pooja.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "user/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Listings</h2>
+    <div class="mb-3">
+        <a href="{% url 'cms:add_listing' %}" class="btn btn-primary">Add Listing</a>
+    </div>
+    <form method="GET" action="{% url 'cms:listings' %}">
+        <div class="input-group mb-3">
+            <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ request.GET.search }}">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for listing in listings %}
+                <tr>
+                    <td>{{ listing.name }}</td>
+                    <td>{{ listing.listing_type }}</td>
+                    <td>{{ listing.location }}</td>
+                    <td>
+                        <a href="{% url 'cms:view_listing' listing.pk %}" class="btn btn-sm btn-info">View</a>
+                        <a href="{% url 'cms:edit_listing' listing.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                        {% comment %} <a href="{% url 'cms:edit_basic' listing.pk %}" class="btn btn-sm btn-secondary">Edit Basic</a>
+                        <a href="{% url 'cms:edit_address' listing.pk %}" class="btn btn-sm btn-secondary">Edit Address</a>
+                        <a href="{% url 'cms:edit_timing_social' listing.pk %}" class="btn btn-sm btn-secondary">Edit Timing & Social</a>
+                        <a href="{% url 'cms:edit_contact' listing.pk %}" class="btn btn-sm btn-secondary">Edit Contact</a>
+                        <a href="{% url 'cms:edit_additional' listing.pk %}" class="btn btn-sm btn-secondary">Edit Additional</a> {% endcomment %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No listings found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination">
+            {% if listings.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ listings.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+            {% for num in listings.paginator.page_range %}
+                {% if listings.number == num %}
+                    <li class="page-item active">
+                        <a class="page-link">{{ num }}</a>
+                    </li>
+                {% elif num > listings.number|add:'-5' and num < listings.number|add:'5' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if listings.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ listings.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ listings.paginator.num_pages }}">Last</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

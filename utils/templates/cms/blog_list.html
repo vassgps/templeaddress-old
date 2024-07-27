@@ -1,0 +1,39 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Blogs</h3>
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'cms:add_blog' %}" class="btn btn-primary mb-3">Add New Blog</a>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for blog in blogs %}
+                            <tr>
+                                <td>{{ blog.title }}</td>
+                                <td>{{ blog.author.username }}</td>
+                                <td>
+                                    <a href="{% url 'cms:view_blog' blog.pk %}" class="btn btn-info btn-sm">View</a>
+                                    <a href="{% url 'cms:edit_blog' blog.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

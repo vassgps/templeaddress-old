@@ -1,0 +1,32 @@
+{% extends 'user/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Edit Pooja</h3>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary">Update Pooja</button>
+                        <a href="{% url 'cms:list_poojas' pooja.temple.id %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

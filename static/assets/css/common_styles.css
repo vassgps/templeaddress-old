@@ -1,0 +1,170 @@
+/* Common Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+header .site-name {
+    font-size: 24px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+header nav {
+    float: right;
+}
+
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+.top-slider img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.top-categories {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.category a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.category a:hover {
+    background: #333;
+    color: #fff;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    width: 30%;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+}
+
+.card p {
+    font-size: 14px;
+    margin: 0 0 5px;
+}
+
+.advertisement img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer .footer-section {
+    margin: 10px 0;
+}
+
+footer .footer-section h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+footer .footer-section p {
+    font-size: 14px;
+    margin: 0 0 10px;
+}
+
+footer .footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer .footer-section ul li {
+    margin: 5px 0;
+}
+
+footer .footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer .footer-section ul li a:hover {
+    text-decoration: underline;
+}
+
+footer .social-media a img {
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .top-categories {
+        flex-direction: column;
+    }
+
+    .cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+    }
+
+    header nav {
+        float: none;
+        text-align: center;
+    }
+}

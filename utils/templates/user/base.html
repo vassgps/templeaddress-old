@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+    {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">Dashboard</div>
+            <div class="list-group list-group-flush my-3">
+                <a href="{% url 'user:dashboard' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-home me-2"></i>Home</a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" data-bs-toggle="collapse" data-bs-target="#myListings" aria-expanded="false" aria-controls="myListings"><i class="fas fa-list me-2"></i>My Listings</a>
+                <div class="collapse" id="myListings">
+                    <a href="{% url 'cms:listings' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-box-open me-2"></i>All Listing</a>
+                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-church me-2"></i>Temples</a>
+                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-concierge-bell me-2"></i>Services</a>
+                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-ad me-2"></i>Advertisements</a>
+                </div>
+                <a href="{% url 'cms:blog_list' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-box-open me-2"></i>Blogs</a>
+                <a href="{% url 'user:logout' %}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+     
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light py-4 px-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
+                    <a class="navbar-brand" href="#">Home</a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!-- Balance Display -->
+                        <li class="nav-item me-3">
+                            <a class="nav-link" href="#"><i class="fas fa-wallet me-2"></i>Balance: ₹1.00</a>
+                        </li>
+                    
+                        <!-- Notifications with Pending Icon -->
+                        <li class="nav-item me-3">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-bell me-2"></i>Notifications
+                                <span class="badge bg-danger">1</span> <!-- Pending notification count -->
+                            </a>
+                        </li>
+                    
+                        <!-- User Dropdown Menu -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user me-2"></i>User
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'user:update_profile' %}"><i class="fas fa-user-circle me-2"></i>Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:change_password' %}"><i class="fas fa-key me-2"></i>Change Password</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'user:logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </nav>
+
+            <div class="container-fluid mt-4">
+                {% if messages %}
+                    <div class="container">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} mt-3" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="container-fluid mt-2">
+                {% block content %}
+                {% endblock %}
+            </div>
+                        <!-- /#wrapper -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">&copy; 2024 TempleAddress.com All rights reserved.</span>
+        </div>
+    </footer>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  </body>
+</html>

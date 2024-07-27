@@ -1,0 +1,45 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3>{{ blog.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Author:</strong> {{ blog.author.username }}</p>
+                    <p><strong>Categories:</strong>
+                        {% for category in blog.categories.all %}
+                            {{ category.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p><strong>Tags:</strong>
+                        {% for tag in blog.tags.all %}
+                            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p><strong>Content:</strong> {{ blog.content|safe }}</p>
+                    {% if blog.thumbnail %}
+                        <img src="{{ blog.thumbnail.url }}" alt="{{ blog.title }}" class="img-fluid">
+                    {% endif %}
+                    {% if blog.images.exists %}
+                        <div class="mt-3">
+                            <h5>Additional Images</h5>
+                            <div class="row">
+                                {% for image in blog.images.all %}
+                                    <div class="col-md-3">
+                                        <img src="{{ image.image.url }}" alt="Image" class="img-fluid mb-2">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <a href="{% url 'cms:blog_list' %}" class="btn btn-secondary mt-3">Back to Blog List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

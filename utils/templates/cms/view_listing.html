@@ -1,0 +1,352 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3>View Listing Details</h3>
+                </div>
+                <div class="card-body bg-light">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>Code</th>
+                                <td>{{ listing.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ listing.name|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Subtitle</th>
+                                <td>{{ listing.subtitle|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ listing.description|safe|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Image</th>
+                                <td>
+                                    {% if listing.image %}
+                                        <img src="{{ listing.image.url }}" alt="Image" class="img-fluid" style="max-width: 200px;">
+                                    {% else %}
+                                        No image available
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Deity</th>
+                                <td>{{ listing.deity|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Deity List</th>
+                                <td>
+                                    {% if listing.deity_list %}
+                                        {{ listing.deity_list|join:", " }}
+                                    {% else %}
+                                        Not provided
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Listing Type</th>
+                                <td>{{ listing.get_listing_type_display|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Categories</th>
+                                <td>
+                                    {% for category in listing.categories.all %}
+                                        {{ category.name }}{% if not forloop.last %}, {% endif %}
+                                    {% empty %}
+                                        No categories
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Tags</th>
+                                <td>
+                                    {% for tag in listing.tags.all %}
+                                        {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                                    {% empty %}
+                                        No tags
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Landmark</th>
+                                <td>{{ listing.landmark|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Location</th>
+                                <td>{{ listing.location|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Town</th>
+                                <td>{{ listing.town|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>District</th>
+                                <td>{{ listing.district|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Zipcode</th>
+                                <td>{{ listing.zipcode|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>State</th>
+                                <td>{{ listing.state|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Country</th>
+                                <td>{{ listing.country|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Latitude</th>
+                                <td>{{ listing.latitude|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Longitude</th>
+                                <td>{{ listing.longitude|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Map URL</th>
+                                <td>{{ listing.map_url|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Time Slot 1</th>
+                                <td>{{ listing.time_slot_1|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Time Slot 2</th>
+                                <td>{{ listing.time_slot_2|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Time Slot 3</th>
+                                <td>{{ listing.time_slot_3|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Social Media</th>
+                                <td>
+                                    {% if listing.social_media %}
+                                        {{ listing.social_media|join:", " }}
+                                    {% else %}
+                                        Not provided
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Facebook Page</th>
+                                <td>{{ listing.facebook_page|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Instagram Page</th>
+                                <td>{{ listing.instagram_page|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Twitter Page</th>
+                                <td>{{ listing.twitter_page|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>YouTube Channel</th>
+                                <td>{{ listing.youtube_channel|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>WhatsApp Number</th>
+                                <td>{{ listing.whatsapp_number|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Telephone</th>
+                                <td>{{ listing.telephone|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mobile</th>
+                                <td>{{ listing.mobile|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ listing.email|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Website</th>
+                                <td>{{ listing.website|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Account Number</th>
+                                <td>{{ listing.acc_number|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>IFSC Code</th>
+                                <td>{{ listing.ifsc_code|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Bank Name</th>
+                                <td>{{ listing.bank_name|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Account Name</th>
+                                <td>{{ listing.account_name|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>UPI ID</th>
+                                <td>{{ listing.upi_id|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>UPI QR</th>
+                                <td>
+                                    {% if listing.upi_qr %}
+                                        <img src="{{ listing.upi_qr.url }}" alt="UPI QR" class="img-fluid" style="max-width: 200px;">
+                                    {% else %}
+                                        No QR code available
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Gallery</th>
+                                <td>
+                                    {% for image in listing.gallery.all %}
+                                        <img src="{{ image.image.url }}" alt="Gallery Image" class="img-fluid" style="max-width: 100px;">
+                                    {% empty %}
+                                        No gallery images
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Story</th>
+                                <td>{{ listing.story|default_if_none:"Not provided" }}</td>
+                            </tr>
+                            <tr>
+                                <th>URL Slug</th>
+                                <td>{{ listing.slug }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="{% url 'cms:listings' %}" class="btn btn-secondary">Go Back</a>
+                    <a href="{% url 'cms:edit_listing' listing.pk %}" class="btn btn-primary">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    {% if listing.listing_type == 'Temple' %}
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Poojas Available</h3>
+                </div>
+                <div class="card-body">
+                    <input type="text" id="poojaSearch" class="form-control mb-3" placeholder="Search Poojas">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Pooja ID</th>
+                                <th>Pooja Name</th>
+                                <th>Price</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="poojaTable">
+                            {% for pooja in listing.poojas.all %}
+                                <tr>
+                                    <td>{{ pooja.pk }}</td>
+                                    <td>{{ pooja.name }}</td>
+                                    <td>{{ pooja.amount }}</td>
+                                    <td>{{ pooja.description }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <!-- Pagination controls will be added here -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const rowsPerPage = 5;
+    const table = document.getElementById('poojaTable');
+    const rows = table.getElementsByTagName('tr');
+    const totalRows = rows.length;
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+    const paginationControls = document.querySelector('.pagination');
+
+    function displayRows(start, end) {
+        for (let i = 0; i < totalRows; i++) {
+            rows[i].style.display = i >= start && i < end ? '' : 'none';
+        }
+    }
+
+    function createPaginationControls() {
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement('li');
+            li.className = 'page-item';
+            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+            li.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageIndex = i - 1;
+                displayRows(pageIndex * rowsPerPage, (pageIndex + 1) * rowsPerPage);
+                document.querySelectorAll('.pagination .page-item').forEach(item => item.classList.remove('active'));
+                li.classList.add('active');
+            });
+            paginationControls.appendChild(li);
+        }
+    }
+
+    function filterRows() {
+        const searchValue = document.getElementById('poojaSearch').value.toLowerCase();
+        let visibleRows = 0;
+        for (let i = 0; i < totalRows; i++) {
+            const row = rows[i];
+            const cells = row.getElementsByTagName('td');
+            const match = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(searchValue));
+            row.style.display = match ? '' : 'none';
+            if (match) visibleRows++;
+        }
+        updatePagination(visibleRows);
+    }
+
+    function updatePagination(visibleRows) {
+        paginationControls.innerHTML = '';
+        const visiblePages = Math.ceil(visibleRows / rowsPerPage);
+        for (let i = 1; i <= visiblePages; i++) {
+            const li = document.createElement('li');
+            li.className = 'page-item';
+            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+            li.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageIndex = i - 1;
+                displayRows(pageIndex * rowsPerPage, (pageIndex + 1) * rowsPerPage);
+                document.querySelectorAll('.pagination .page-item').forEach(item => item.classList.remove('active'));
+                li.classList.add('active');
+            });
+            paginationControls.appendChild(li);
+        }
+        displayRows(0, rowsPerPage);
+        if (paginationControls.firstChild) {
+            paginationControls.firstChild.classList.add('active');
+        }
+    }
+
+    document.getElementById('poojaSearch').addEventListener('input', filterRows);
+
+    createPaginationControls();
+    displayRows(0, rowsPerPage);
+    if (paginationControls.firstChild) {
+        paginationControls.firstChild.classList.add('active');
+    }
+});
+</script>
+{% endblock %}
+
+{% endblock %}
