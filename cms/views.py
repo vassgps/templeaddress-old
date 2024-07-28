@@ -265,25 +265,3 @@ class BlogUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return response
 
 
-# class BlogListView(ListView):
-#     model = Blog
-#     template_name = 'cms/blog_list.html'
-#     context_object_name = 'blogs'
-
-# class BlogCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-#     model = Blog
-#     form_class = BlogForm
-#     template_name = 'cms/blog_form.html'
-#     success_url = reverse_lazy('cms:blog_list')
-#     success_message = "Blog created successfully!"
-
-#     def form_valid(self, form):
-#         form.instance.author = self.request.user
-#         return super().form_valid(form)
-
-# class BlogUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-#     model = Blog
-#     form_class = BlogForm
-#     template_name = 'cms/blog_form.html'
-#     success_url = reverse_lazy('cms:blog_list')
-#     success_message = "Blog updated successfully!"

@@ -19,17 +19,20 @@ from utils.models import CommonFields
 logger = logging.getLogger("django")
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, username, email=None, password=None, **extra_fields):
-        if not username:
-            raise ValueError("The Username field must be set")
+    def create_user(self, mobile_number, email=None, password=None, **extra_fields):
+        if not email:
+            raise ValueError("The Email field must be set")
+        if not mobile_number:
+            raise ValueError("The Mobile Number field must be set")
 
-        email = self.normalize_email(email) if email else None
-        user = self.model(email=email, username=username, **extra_fields)
+        email = self.normalize_email(email)
+        user = self.model(email=email, mobile_number=mobile_number, **extra_fields)
+        user.username = generate_random_code()
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email, password=None, **extra_fields):
+    def create_superuser(self, email, mobile_number, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
 
@@ -38,22 +41,18 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True.")
 
-        return self.create_user(username, email, password, **extra_fields)
-
-    def get_by_natural_key(self, username):
-        return self.get(username=username)
+        return self.create_user(email=email, mobile_number=mobile_number, password=password, **extra_fields)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30, null=True, blank=True)
     email = models.EmailField(unique=True, null=True, blank=True, help_text='Enter a valid email address.')
-    username = models.CharField(max_length=30, unique=True, verbose_name="Username",
-                                help_text='Enter your Phone number.')
+    username = models.CharField(max_length=30, unique=True, verbose_name="Username", help_text='Auto-generated username')
+    mobile_number = models.CharField(max_length=15, unique=True, null=True, blank=True, verbose_name="Mobile number")
 
     designation = models.CharField(max_length=100, null=True, blank=True, choices=ChoiceMenu.DESIGNATION)
     user_scope = models.CharField(max_length=20, null=True, choices=ChoiceMenu.USER_SCOPES, default="6")
-    mobile_number = models.CharField(max_length=15, unique=True, null=True, blank=True, verbose_name="Mobile number")
     email_verified = models.BooleanField(default=False)  # Check field for verify user email
     mobile_verified = models.BooleanField(default=False)  # Check  field for verify user Mobile number
     referred_by = models.CharField(max_length=50, null=True, blank=True)
@@ -68,16 +67,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     status = models.BooleanField(default=True)  # Common Status field for check active or disabled status of object
     is_deleted = models.BooleanField(default=False)  # Soft delete field
     created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
     created_by = models.CharField(max_length=40, null=True, blank=True)  # Store created user UUID
     updated_by = models.CharField(max_length=40, null=True, blank=True)  # Store Updated user UUID
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'username'  # Use "username or email" for authentication
-    REQUIRED_FIELDS = ["first_name", "email"]
-
-
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email', 'mobile_number']
 
     def __str__(self):
         return self.username
@@ -134,6 +131,13 @@ class Wallet(CommonFields):
 
 
 # Generate Random codes using Signals
+
+def set_username(sender, instance, **kwargs):
+    if not instance.username:
+        instance.username = generate_random_code()
+
+pre_save.connect(set_username, sender=CustomUser)
+
 
 # Function to Update referral Points
 def add_referral_pont(obj):
