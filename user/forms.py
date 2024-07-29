@@ -31,3 +31,17 @@ class CustomUserCreationForm(BaseUserCreationForm):
     class Meta:
         model = CustomUser
         fields = ('email', 'mobile_number', 'password1', 'password2')
+
+
+
+class CustomUserAdminForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        read_only_fields = ['uuid', 'username', 'created_at', 'created_by', 'updated_at', 'updated_by']
+        for field in read_only_fields:
+            if field in self.fields:
+                self.fields[field].widget.attrs['readonly'] = True

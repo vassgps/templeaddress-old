@@ -16,6 +16,19 @@ from .forms import *
 
 logger = logging.getLogger(__name__)
 
+# class ListingsView(LoginRequiredMixin, ListView):
+#     model = MastereData
+#     template_name = 'cms/listings.html'
+#     context_object_name = 'listings'
+#     paginate_by = 10
+
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+#         search_query = self.request.GET.get('search', '')
+#         if search_query:
+#             queryset = queryset.filter(name__icontains=search_query)
+#         return queryset
+
 class ListingsView(LoginRequiredMixin, ListView):
     model = MastereData
     template_name = 'cms/listings.html'
@@ -23,15 +36,24 @@ class ListingsView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
+        user = self.request.user
         queryset = super().get_queryset()
         search_query = self.request.GET.get('search', '')
-        if search_query:
-            queryset = queryset.filter(name__icontains=search_query)
+        user_scope =  user.user_scope
+        print("Scope :", user.user_scope, " -" , user.uuid)
+
+        if user_scope in ["1", "2", "3", "4"]:  # Super Admin, Portal Admin, Portal Manager, Project Coordinator
+            if search_query:
+                queryset = queryset.filter(name__icontains=search_query)
+        else:  # Other user scopes
+            queryset = queryset.filter(created_by=user.uuid)
+            if search_query:
+                queryset = queryset.filter(name__icontains=search_query)
+        
         return queryset
 
 
-
-class AddListingView(LoginRequiredMixin, CreateView):
+class AddListingView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = MastereData
     form_class = MasterDataForm
     template_name = 'cms/add_listing.html'
@@ -39,18 +61,13 @@ class AddListingView(LoginRequiredMixin, CreateView):
     success_message = "Listing added successfully!"
 
     def form_valid(self, form):
-        try:
-            response = super().form_valid(form)
-            messages.success(self.request, self.success_message)
-            return response
-        except Exception as e:
-            messages.error(self.request, f"An error occurred: {e}")
-            return self.form_invalid(form)
+        form.instance.created_by = self.request.user.uuid
+        form.instance.updated_by = self.request.user.uuid
+        return super().form_valid(form)
 
     def form_invalid(self, form):
         messages.error(self.request, "Please correct the errors below.")
         return super().form_invalid(form)
-
 
 class ViewListingView(LoginRequiredMixin, DetailView):
     model = MastereData
@@ -63,6 +80,19 @@ class ViewListingView(LoginRequiredMixin, DetailView):
         except MastereData.DoesNotExist:
             messages.error(request, "Listing not found.")
             return redirect('cms:listings')
+        
+# class EditListingView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+#     model = MastereData
+#     form_class = MasterDataForm
+#     template_name = 'cms/edit_listing.html'
+#     success_url = reverse_lazy('cms:listings')
+#     success_message = "Listing updated successfully!"
+
+#     def form_valid(self, form):
+#         logger.info(f'Form data: {form.cleaned_data}')
+#         print(f'Form data: {form.cleaned_data}')
+#         return super().form_valid(form)  # Add this line to return an HttpResponse
+    
 class EditListingView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = MastereData
     form_class = MasterDataForm
@@ -71,10 +101,8 @@ class EditListingView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = "Listing updated successfully!"
 
     def form_valid(self, form):
-        logger.info(f'Form data: {form.cleaned_data}')
-        print(f'Form data: {form.cleaned_data}')
-        return super().form_valid(form)  # Add this line to return an HttpResponse
-    
+        form.instance.updated_by = self.request.user.uuid
+        return super().form_valid(form)
 
 class EditAddressView(LoginRequiredMixin, UpdateView):
     model = MastereData

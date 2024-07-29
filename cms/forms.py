@@ -8,20 +8,20 @@ from django.forms.widgets import ClearableFileInput, Select
 from django_ckeditor_5.fields import CKEditor5Field
 
 class MasterDataForm(forms.ModelForm):
-    # deity_list = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), required=False)
     deity_list = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = MastereData
-        fields = ['name', 'subtitle', 'description', 'deity', 'categories', 'tags']
+        fields = ['name', 'listing_type', 'subtitle', 'description', 'deity', 'categories', 'tags', 'image']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'listing_type': forms.Select(attrs={'class': 'form-control'}),
             'subtitle': forms.TextInput(attrs={'class': 'form-control'}),
             'description': CKEditor5Widget(attrs={'class': 'form-control'}),
             'deity': forms.TextInput(attrs={'class': 'form-control'}),
-            # 'deity_list': forms.TextInput(attrs={'class': 'form-control'}),
             'categories': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'image': ClearableFileInput(attrs={'class': 'form-control'})
         }
 
     def clean_deity_list(self):
