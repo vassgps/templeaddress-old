@@ -131,15 +131,21 @@ class PoojaForm(forms.ModelForm):
             'booking_available': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
+
 class BlogForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditor5Widget())
     slug = forms.CharField(required=False)
 
     class Meta:
         model = Blog
-        fields = ['title', 'slug', 'content', 'categories', 'tags', 'thumbnail', 'images']
+        fields = ['title', 'slug', 'content', 'tags', 'categories', 'thumbnail', 'images']
         widgets = {
-            'categories': forms.CheckboxSelectMultiple(),
             'tags': forms.CheckboxSelectMultiple(),
+            'categories': forms.CheckboxSelectMultiple(),
             'images': forms.CheckboxSelectMultiple(),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tags'].required = False
+

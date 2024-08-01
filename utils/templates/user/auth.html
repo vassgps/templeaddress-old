@@ -192,6 +192,7 @@
             <h2>Login</h2>
             <form method="post" action="{% url 'user:login' %}">
                 {% csrf_token %}
+                {{ form.non_field_errors }}
                 <label for="username">Mobile Number or Email</label>
                 <input type="text" id="username" name="username" required>
                 

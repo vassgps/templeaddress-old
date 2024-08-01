@@ -58,7 +58,7 @@
                         <!-- User Dropdown Menu -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>User
+                                <i class="fas fa-user me-2"></i> {{ user.first_name|default:user.username }}
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'user:update_profile' %}"><i class="fas fa-user-circle me-2"></i>Profile</a></li>
