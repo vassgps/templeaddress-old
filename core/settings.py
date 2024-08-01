@@ -76,13 +76,33 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+USE_DB = config('USE_DB', default=False, cast=bool)
+USE_S3 = config('USE_S3', default=False, cast=bool)
+USE_EMAIL = config('USE_EMAIL', default=False, cast=bool)
+LIVE_MODE = config('LIVE_MODE', default=False, cast=bool)
+BASE_URL = config('BASE_URL', default="http://localhost:8000")
+APP_URL = config('APP_URL',  default="https://templesaddress.com")
+API_URL = config('API_URL', default="https://api.templesaddress.com")
 
+if USE_DB:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT'),
+        }
+    }
+else:
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -117,7 +137,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-USE_S3 = False
 
 if USE_S3:
     # AWS settings

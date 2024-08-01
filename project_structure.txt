@@ -64,3 +64,7 @@ webapp/
 └── README.md
 |__ .gitignore
 |__ project_structure.txt
+|__ Dockerfile
+|__ docker-compose.yml
+|__ .env
+|__ .github/workflows/docker-image-production.yml
