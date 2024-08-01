@@ -2,6 +2,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+from django.dispatch import receiver
+from django.db.models.signals import pre_save
+from utils.common.generators import generate_random_code
 from django_ckeditor_5.fields import CKEditor5Field
 from qrcode import make as qr_make  # For generating QR codes
 from io import BytesIO
@@ -70,20 +73,21 @@ class Category(CommonFields):
 class Blog(CommonFields):
     title = models.CharField(max_length=120, null=True)
     slug = models.CharField(max_length=180, null=True, blank=True, unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     content = CKEditor5Field('Content')
-    categories = models.ManyToManyField(Category, related_name='blogs')
-    tags = models.ManyToManyField(Tag, related_name='blogs')
+    categories = models.ManyToManyField(Category, related_name='blogs', blank=True)
+    tags = models.ManyToManyField(Tag, related_name='blogs', blank=True)
     thumbnail = models.ImageField(upload_to=master_upload_directory_path, null=True, blank=True)
     images = models.ManyToManyField(ImageGallery, related_name='blogs', blank=True)
 
     def __str__(self):
         return self.title
-
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
 
 class MastereData(CommonFields):
     listing_data = (("Temple", "Temple"), ("Service", "Services"), ("Festivals", "Festivals"))
@@ -264,3 +268,11 @@ class Payment(CommonFields):
 
     def __str__(self):
         return f'Payment {self.pk} - {self.customer.customer_name}'
+
+
+
+# Create Django Signals
+@receiver(pre_save, sender=Blog)
+def set_blog_author(sender, instance, **kwargs):
+    if not instance.author:
+        instance.author = instance.user

@@ -47,11 +47,6 @@
                             {{ form.deity }}
                             {{ form.deity.errors }}
                         </div>
-                        <div class="mb-3">
-                            {{ form.image.label_tag }}
-                            {{ form.image }}
-                            {{ form.image.errors }}
-                        </div>
             
                         <div class="mb-3">
                             {{ form.categories.label_tag }}
@@ -63,6 +58,12 @@
                             {{ form.tags }}
                             {{ form.tags.errors }}
                         </div>
+                        <div class="mb-3">
+                            {{ form.image.label_tag }}
+                            {{ form.image }}
+                            {{ form.image.errors }}
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Save</button>
                         <a href="{% url 'cms:listings' %}" class="btn btn-secondary">Cancel</a>
                     </form>

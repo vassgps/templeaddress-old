@@ -3,6 +3,7 @@
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+from .forms import MasterDataForm,BlogForm
 from .models import (
     ImageGallery,
     Tag,
@@ -25,16 +26,58 @@ class BlogResource(resources.ModelResource):
         model = Blog
 
 class MastereDataAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    # form = MasterDataForm
     resource_class = MastereDataResource
-    list_display = ('name', 'listing_type', 'location', 'district', 'state', 'country', 'created_at', 'updated_at')
+    list_display = ('name', 'listing_type', 'location', 'district', 'country', 'created_by', 'updated_at')
     list_filter = ('listing_type', 'categories', 'tags')
     search_fields = ('name', 'description', 'location', 'district', 'state', 'country')
+    readonly_fields = ('uuid', 'listing_type', 'created_by', 'created_at', 'updated_by', 'updated_at')
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'name', 'subtitle', 'description', 'deity', 'categories', 'tags', 'image', 'gallery', 
+                'story', 'listing_type', 'location', 'district', 'state', 'country', 'latitude', 'longitude',
+                'uuid', 'created_by', 'created_at', 'updated_by', 'updated_at'
+            )
+        }),
+    )
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.created_by = request.user.uuid
+        obj.updated_by = request.user.uuid
+        super().save_model(request, obj, form, change)
+
+# class BlogAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+#     resource_class = BlogResource
+#     list_display = ('title', 'author', 'created_at', 'updated_at')
+#     list_filter = ('author', 'categories', 'tags')
+#     search_fields = ('title', 'content', 'author__username')
+#     readonly_fields = ('uuid', 'created_by', 'created_at', 'updated_by', 'updated_at')
 
 class BlogAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    # form = BlogForm
     resource_class = BlogResource
-    list_display = ('title', 'author', 'created_at', 'updated_at')
-    list_filter = ('author', 'categories', 'tags')
-    search_fields = ('title', 'content', 'author__username')
+
+    list_display = ('title', 'created_by', 'created_at', 'updated_by', 'updated_at')
+    readonly_fields = ('uuid', 'created_by', 'created_at', 'updated_by', 'updated_at')
+
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'content', 'categories', 'tags', 'thumbnail', 'images')
+        }),
+        ('Metadata', {
+            'fields': ('uuid', 'created_by', 'created_at', 'updated_by', 'updated_at')
+        }),
+    )
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.author = request.user
+            obj.created_by = request.user.uuid
+        obj.updated_by = request.user.uuid
+        super().save_model(request, obj, form, change)
 
 
 class ImageGalleryAdmin(admin.ModelAdmin):

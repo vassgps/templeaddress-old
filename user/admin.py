@@ -2,16 +2,48 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, Notifications, Wallet
+from .forms import CustomUserAdminForm
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
 
+# class CustomUserAdmin(UserAdmin):
+#     model = CustomUser
+#     form = CustomUserAdminForm
+#     # Define the list of fields you want to display in the admin list view
+#     list_display = ('username', 'email', 'first_name', 'last_name',
+#                      'user_scope', 'is_active',)
+
+#     # Add filters for user attributes
+#     list_filter = ('is_active', 'is_staff')
+
+#     # Customize the fieldsets as needed, making sure to include your custom fields
+#     fieldsets = (
+#         ('User Information', {
+#             'fields': ('username', 'uuid', 'email', 'password', 'first_name', 'last_name', 'designation',
+#                         'user_scope', 'mobile_number', 'is_active', 'referred_by',
+#                        'is_staff', 'is_superuser')
+#         }),
+#     )
+
+#     # Customize the add form
+#     add_fieldsets = (
+#         (None, {
+#             'classes': ('wide',),
+#             'fields': ('username', 'email', 'password1', 'password2'),
+#         }),
+#         ('Personal Info', {
+#             'fields': ('first_name', 'last_name', 'designation',
+#                        'department_id', 'user_scope', 'mobile_number'),
+#         }),
+#     )
+
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
+    form = CustomUserAdminForm
 
     # Define the list of fields you want to display in the admin list view
-    list_display = ('username', 'email', 'first_name', 'last_name',
-                     'user_scope', 'is_active',)
+    list_display = ('username', 'email', 'first_name', 'last_name', 'user_scope', 'is_active',)
 
     # Add filters for user attributes
     list_filter = ('is_active', 'is_staff')
@@ -19,9 +51,8 @@ class CustomUserAdmin(UserAdmin):
     # Customize the fieldsets as needed, making sure to include your custom fields
     fieldsets = (
         ('User Information', {
-            'fields': ('username', 'email', 'password', 'first_name', 'last_name', 'designation',
-                        'user_scope', 'mobile_number', 'is_active', 'referred_by',
-                       'is_staff', 'is_superuser')
+            'fields': ('username', 'uuid', 'email', 'password', 'first_name', 'last_name', 'designation',
+                       'user_scope', 'mobile_number', 'is_active', 'referred_by', 'is_staff', 'is_superuser', 'created_at', 'created_by', 'updated_at', 'updated_by')
         }),
     )
 
@@ -37,6 +68,8 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 
+    # Specify read-only fields
+    readonly_fields = ('uuid', 'username', 'created_at', 'created_by', 'updated_at', 'updated_by')
 
 # Temple Master
 class NotificationResource(resources.ModelResource):
