@@ -3,7 +3,7 @@ name: CI/CD Pipeline for TempleAddress Project - Develop
 on:
   push:
     branches:
-      - development
+      - develop
 
 jobs:
   build:
@@ -39,4 +39,4 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64
         push: true
-        tags: anandvmclt/templeaddress:development
+        tags: anandvmclt/templeaddress:develop
