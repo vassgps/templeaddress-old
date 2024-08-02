@@ -68,3 +68,5 @@ webapp/
 |__ docker-compose.yml
 |__ .env
 |__ .github/workflows/docker-image-production.yml
+|__ .dockerignore
+|__ entrypoint.sh

@@ -18,12 +18,19 @@ RUN pip install -r requirements.txt
 # Copy the rest of the project
 COPY . /code/
 
-# Copy and set the entrypoint script
+# Copy the entrypoint script
 COPY entrypoint.sh /entrypoint.sh
+
+# Make the entrypoint script executable
 RUN chmod +x /entrypoint.sh
+
+# Run migrations and collect static files
+RUN python manage.py collectstatic --noinput
+RUN python manage.py migrate
 
 # Expose port 8000 for the application
 EXPOSE 8000
 
 # Start the application
 ENTRYPOINT ["/entrypoint.sh"]
+CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]

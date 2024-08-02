@@ -41,7 +41,7 @@ jobs:
         push: true
         tags: anandvmclt/templeaddress:production
 
-    - name: Copy entrypoint.sh to container
-      run: |
-        cp entrypoint.sh /code/
-        chmod +x /code/entrypoint.sh
+    # - name: Copy entrypoint.sh to container
+    #   run: |
+    #     cp entrypoint.sh /code/
+    #     chmod +x /code/entrypoint.sh
