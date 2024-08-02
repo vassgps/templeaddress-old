@@ -1,21 +1,12 @@
+#entrypoint.sh
 #!/bin/bash
-
-# Filename: entrypoint.sh
-
 set -e
-
-host="$POSTGRES_HOST"
-shift
-cmd="$@"
-
 
 # Wait for the PostgreSQL server to be ready
 until pg_isready -h db -p 5432 -U "$POSTGRES_USER"; do
   >&2 echo "Postgres is unavailable - sleeping"
   sleep 1
 done
-
->&2 echo "Postgres is up - executing command"
 
 # Initialize database if empty
 if [ $(psql -U $POSTGRES_USER -d $POSTGRES_DB -c '\dt' | grep -c "(0 rows)") -eq 1 ]; then
