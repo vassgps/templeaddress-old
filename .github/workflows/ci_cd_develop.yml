@@ -40,3 +40,8 @@ jobs:
         platforms: linux/amd64
         push: true
         tags: anandvmclt/templeaddress:develop
+
+    - name: Copy entrypoint.sh to container
+      run: |
+        cp entrypoint.sh /code/
+        chmod +x /code/entrypoint.sh
