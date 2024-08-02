@@ -18,10 +18,8 @@ RUN pip install -r requirements.txt
 # Copy the rest of the project
 COPY . /code/
 
-# Copy the entrypoint script
+# Copy the entrypoint script and ensure it's executable
 COPY entrypoint.sh /entrypoint.sh
-
-# Make the entrypoint script executable
 RUN chmod +x /entrypoint.sh
 
 # Run migrations and collect static files
