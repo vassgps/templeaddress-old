@@ -9,7 +9,8 @@ ENV PYTHONUNBUFFERED=1
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
-    postgresql-client
+    postgresql-client \
+    netcat-openbsd
 
 # Set the working directory
 WORKDIR /code

@@ -1,32 +1,14 @@
 #!/bin/bash
 
-# Filename: entrypoint.sh
+if [ "$DATABASE" = "postgres" ]
+then
+    echo "Waiting for postgres..."
 
-set -e
+    while ! nc -z $SQL_HOST $SQL_PORT; do
+      sleep 0.1
+    done
 
-host="$POSTGRES_HOST"
-shift
-cmd="$@"
-
-
-# Wait for the PostgreSQL server to be ready
-until pg_isready -h db -p 5432 -U "$POSTGRES_USER"; do
-  >&2 echo "Postgres is unavailable - sleeping"
-  sleep 1
-done
-
->&2 echo "Postgres is up - executing command"
-
-# Initialize database if empty
-if [ $(psql -U $POSTGRES_USER -d $POSTGRES_DB -c '\dt' | grep -c "(0 rows)") -eq 1 ]; then
-  psql -U $POSTGRES_USER -d $POSTGRES_DB < /code/db_backup.sql
+    echo "PostgreSQL started"
 fi
 
-# Apply database migrations
-python manage.py migrate
-
-# Collect static files
-python manage.py collectstatic --noinput
-
-# Start the application
-exec gunicorn core.wsgi:application --bind 0.0.0.0:8000
+exec "$@"
