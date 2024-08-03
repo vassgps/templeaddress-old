@@ -25,6 +25,9 @@ RUN pip install -r requirements.txt
 # Copy the rest of the project
 COPY . /code/
 
+# Copy the backup SQL file
+COPY db_backup.sql /docker-entrypoint-initdb.d/
+
 # Copy the entrypoint script and ensure it's executable
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
