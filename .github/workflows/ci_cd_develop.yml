@@ -22,6 +22,38 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    
+        - name: Run Tests
+        env:
+          SECRET_KEY: ${{ secrets.DEV_SECRET_KEY }}
+          USE_DB: ${{ secrets.DEV_USE_DB }}
+          DB_PORT: ${{ secrets.DEV_DB_PORT }}
+          DB_NAME: ${{ secrets.DEV_DB_NAME }}
+          DB_USER: ${{ secrets.DEV_DB_USER }}
+          DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DEV_DB_HOST }}
+          BACKUP_DB: ${{ secrets.DEV_BACKUP_DB }}
+          RESTORE_DB: ${{ secrets.DEV_RESTORE_DB }}
+          USE_S3: ${{ secrets.DEV_USE_S3 }}
+          AWS_IAM_KEY_ID: ${{ secrets.DEV_AWS_IAM_KEY_ID }}
+          AWS_IAM_ACCESS_KEY: ${{ secrets.DEV_AWS_IAM_ACCESS_KEY }}
+          AWS_STORAGE_BUCKET_NAME: ${{ secrets.DEV_AWS_STORAGE_BUCKET_NAME }}
+          AWS_DEFAULT_ACL: ${{ secrets.DEV_AWS_DEFAULT_ACL }}
+          USER_PASSWORD: ${{ secrets.DEV_USER_PASSWORD }}
+          USE_EMAIL: ${{ secrets.DEV_USE_EMAIL }}
+          DEFAULT_FROM_EMAIL: ${{ secrets.DEV_DEFAULT_FROM_EMAIL }}
+          SERVER_EMAIL: ${{ secrets.DEV_SERVER_EMAIL }}
+          EMAIL_BACKEND: ${{ secrets.DEV_EMAIL_BACKEND }}
+          MAILJET_API_KEY: ${{ secrets.DEV_MAILJET_API_KEY }}
+          MAILJET_SECRET_KEY: ${{ secrets.DEV_MAILJET_SECRET_KEY }}
+          MAILJET_SENDER_DOMAIN: ${{ secrets.DEV_MAILJET_SENDER_DOMAIN }}
+          LIVE_MODE: ${{ secrets.DEV_LIVE_MODE }}
+          BASE_URL: ${{ secrets.DEV_BASE_URL }}
+          API_URL: ${{ secrets.DEV_API_URL }}
+          APP_URL: ${{ secrets.DEV_APP_URL }}
+        run: |
+          # Commands to run your tests
+          python manage.py test
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
