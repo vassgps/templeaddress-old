@@ -29,7 +29,11 @@ COPY . /code/
 COPY .env /code/.env
 
 # Copy the backup SQL file
-COPY db_backup.sql /docker-entrypoint-initdb.d/
+# COPY db_backup.sql /docker-entrypoint-initdb.d/
+
+# Check if db_backup.sql exists and copy it if it does
+RUN mkdir -p /docker-entrypoint-initdb.d && \
+    if [ -f db_backup.sql ]; then cp db_backup.sql /docker-entrypoint-initdb.d/; fi
 
 # Copy the entrypoint script and ensure it's executable
 COPY entrypoint.sh /entrypoint.sh
