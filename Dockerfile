@@ -25,8 +25,8 @@ RUN pip install -r requirements.txt
 # Copy the rest of the project
 COPY . /code/
 
-# Copy .env file
-COPY .env /code/.env
+# Conditionally copy .env file if it exists
+RUN if [ -f .env ]; then cp .env /code/.env; fi
 
 # Copy the backup SQL file
 # COPY db_backup.sql /docker-entrypoint-initdb.d/
